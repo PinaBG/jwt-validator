@@ -47,4 +47,18 @@ public class JWTValidatorService {
 		
 		return isValid;
 	}
+	
+	public boolean validateSeed(int seed) {
+		boolean isValid = true;
+		
+		if(seed == 1 || seed == 4) {
+			return false;
+		}
+		
+		for (int i = 2; i < Math.sqrt(seed); i++){ 
+			if (seed % i == 0) 
+				isValid  = false; 
+		} 
+		return isValid; 
+	}
 }
