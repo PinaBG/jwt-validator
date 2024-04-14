@@ -66,4 +66,15 @@ class JWTValidatorServiceTest {
 		boolean resultTrue = jwtValidatorService.nameLenghtLessThan256Characters(rightName);
 		assertTrue(resultTrue);
 	}
+	
+	@Test
+	void testNameValidate() {
+		String wrongName = "t3st" + "a".repeat(256);
+		boolean resultFalse = jwtValidatorService.validateName(wrongName);
+		assertFalse(resultFalse);
+		
+		String rightName = "teste";
+		boolean resultTrue = jwtValidatorService.validateName(rightName);
+		assertTrue(resultTrue);
+	}
 }
