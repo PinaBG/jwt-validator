@@ -48,11 +48,22 @@ class JWTValidatorServiceTest {
 	@Test
 	void testNameContainsNumbers() {
 		String wrongName = "T3st1ng";
-		boolean resultFalse = jwtValidatorService.nameDontContainsNumbers(wrongName);
+		boolean resultFalse = jwtValidatorService.nameDontContainNumbers(wrongName);
 		assertFalse(resultFalse);
 		
 		String rightName = "Testing";
-		boolean resultTrue = jwtValidatorService.nameDontContainsNumbers(rightName);
+		boolean resultTrue = jwtValidatorService.nameDontContainNumbers(rightName);
+		assertTrue(resultTrue);
+	}
+	
+	@Test
+	void testNameLengthMoreThan256() {
+		String wrongName = "a".repeat(257);
+		boolean resultFalse = jwtValidatorService.nameLenghtLessThan256Characters(wrongName);
+		assertFalse(resultFalse);
+		
+		String rightName = "abc";
+		boolean resultTrue = jwtValidatorService.nameLenghtLessThan256Characters(rightName);
 		assertTrue(resultTrue);
 	}
 }
