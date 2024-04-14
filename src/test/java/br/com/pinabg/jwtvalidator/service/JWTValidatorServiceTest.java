@@ -100,11 +100,22 @@ class JWTValidatorServiceTest {
 	@Test
 	void testValidateRole() {
 		String wrongRole = "";
-		boolean resultFalse = jwtValidatorService.roleHasRightFormat(wrongRole);
+		boolean resultFalse = jwtValidatorService.validateRole(wrongRole);
 		assertFalse(resultFalse);
 		
 		String rightRole = "Admin";
-		boolean resultTrue = jwtValidatorService.roleHasRightFormat(rightRole);
+		boolean resultTrue = jwtValidatorService.validateRole(rightRole);
+		assertTrue(resultTrue);
+	}
+	
+	@Test
+	void testValidateSeed() {
+		int wrongSeed = 6;
+		boolean resultFalse = jwtValidatorService.validateSeed(wrongSeed);
+		assertFalse(resultFalse);
+		
+		int rightSeed = 2;
+		boolean resultTrue = jwtValidatorService.validateSeed(rightSeed);
 		assertTrue(resultTrue);
 	}
 }
