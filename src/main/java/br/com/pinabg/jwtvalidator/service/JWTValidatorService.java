@@ -11,7 +11,7 @@ public class JWTValidatorService {
 	    return !(name == null || name.isBlank());
 	}
 	
-	public boolean nameDontContainsNumbers(String name) {
+	public boolean nameDontContainNumbers(String name) {
 		boolean isValid = true;
 		
 		Pattern pattern = Pattern.compile("\\d+");
@@ -20,5 +20,9 @@ public class JWTValidatorService {
 			isValid = false;
 		}
 		return isValid;
+	}
+	
+	public boolean nameLenghtLessThan256Characters(String name) {
+		return name.length()<=256;
 	}
 }
