@@ -44,4 +44,15 @@ class JWTValidatorServiceTest {
 
 		assertTrue(resultTrue);
 	}
+	
+	@Test
+	void testNameContainsNumbers() {
+		String wrongName = "T3st1ng";
+		boolean resultFalse = jwtValidatorService.nameDontContainsNumbers(wrongName);
+		assertFalse(resultFalse);
+		
+		String rightName = "Testing";
+		boolean resultTrue = jwtValidatorService.nameDontContainsNumbers(rightName);
+		assertTrue(resultTrue);
+	}
 }
