@@ -29,4 +29,22 @@ public class JWTValidatorService {
 	public boolean nameLenghtLessThan256Characters(String name) {
 		return name.length()<=256;
 	}
+	
+	public boolean validateRole(String role) {
+		return stringIsNotNullOrEmpty(role) && roleHasRightFormat(role);
+	}
+	
+	public boolean roleHasRightFormat(String role) {
+		boolean isValid = true;
+		
+		final String ADMIN = "Admin";
+		final String MEMBER = "Member";
+		final String EXTERNAL = "External";
+		
+		if(!role.equals(ADMIN) && !role.equals(MEMBER) && !role.equals(EXTERNAL)) {
+			isValid = false;
+		}
+		
+		return isValid;
+	}
 }
