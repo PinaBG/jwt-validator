@@ -77,4 +77,34 @@ class JWTValidatorServiceTest {
 		boolean resultTrue = jwtValidatorService.validateName(rightName);
 		assertTrue(resultTrue);
 	}
+	
+	@Test
+	void testRoleHasRightFormat() {
+		String wrongRole = "Cliente";
+		boolean resultFalse = jwtValidatorService.roleHasRightFormat(wrongRole);
+		assertFalse(resultFalse);
+		
+		String rightRoleAdmin = "Admin";
+		boolean resultTrueAdmin = jwtValidatorService.roleHasRightFormat(rightRoleAdmin);
+		assertTrue(resultTrueAdmin);
+		
+		String rightRoleMember = "Member";
+		boolean resultTrueMember = jwtValidatorService.roleHasRightFormat(rightRoleMember);
+		assertTrue(resultTrueMember);
+		
+		String rightRoleExternal = "External";
+		boolean resultTrueExternal = jwtValidatorService.roleHasRightFormat(rightRoleExternal);
+		assertTrue(resultTrueExternal);
+	}
+	
+	@Test
+	void testValidateRole() {
+		String wrongRole = "";
+		boolean resultFalse = jwtValidatorService.roleHasRightFormat(wrongRole);
+		assertFalse(resultFalse);
+		
+		String rightRole = "Admin";
+		boolean resultTrue = jwtValidatorService.roleHasRightFormat(rightRole);
+		assertTrue(resultTrue);
+	}
 }
