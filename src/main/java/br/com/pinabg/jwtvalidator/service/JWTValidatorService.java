@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JWTValidatorService {
+	public boolean validateName(String name) {
+		return stringIsNotNullOrEmpty(name) && nameDontContainNumbers(name) && nameLenghtLessThan256Characters(name);
+	}
+	
 	public boolean stringIsNotNullOrEmpty(String name) {
 	    return !(name == null || name.isBlank());
 	}
