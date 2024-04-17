@@ -19,6 +19,15 @@ public class JWTValidatorService {
 	@Value("${jwt.secret}")
     private String jwtKey;
 	
+	public String createJwt(String payload) {
+		SecretKey key = Keys.hmacShaKeyFor(jwtKey.getBytes());
+		
+		return Jwts.builder()
+                .content(payload)
+                .signWith(key)
+                .compact();
+	}
+	
 	public JwtResponseModel loadAllValidations(String jwsToken) {
 	    JwtResponseModel jwtResponse = new JwtResponseModel();
 	    jwtResponse.setValidity("Verdadeiro");
