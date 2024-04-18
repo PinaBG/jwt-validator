@@ -102,10 +102,6 @@ public class JWTValidatorService {
 		return isValid;
 	}
 	
-	public boolean validateName(String name) {
-		return stringIsNotNullOrEmpty(name) && nameDontContainNumbers(name) && nameLenghtLessThan256Characters(name);
-	}
-	
 	public boolean stringIsNotNullOrEmpty(String name) {
 	    return !(name == null || name.isBlank());
 	}
@@ -123,10 +119,6 @@ public class JWTValidatorService {
 	
 	public boolean nameLenghtLessThan256Characters(String name) {
 		return name.length()<=256;
-	}
-	
-	public boolean validateRole(String role) {
-		return stringIsNotNullOrEmpty(role) && roleHasRightFormat(role);
 	}
 	
 	public boolean roleHasRightFormat(String role) {

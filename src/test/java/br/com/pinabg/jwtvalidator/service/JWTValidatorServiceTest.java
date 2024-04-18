@@ -75,17 +75,6 @@ class JWTValidatorServiceTest {
 	}
 	
 	@Test
-	void testNameValidate() {
-		final String wrongName = "t3st" + "a".repeat(256);
-		boolean resultFalse = jwtValidatorService.validateName(wrongName);
-		assertFalse(resultFalse);
-		
-		final String rightName = "teste";
-		boolean resultTrue = jwtValidatorService.validateName(rightName);
-		assertTrue(resultTrue);
-	}
-	
-	@Test
 	void testRoleHasRightFormat() {
 		final String wrongRole = "Cliente";
 		boolean resultFalse = jwtValidatorService.roleHasRightFormat(wrongRole);
@@ -102,17 +91,6 @@ class JWTValidatorServiceTest {
 		final String rightRoleExternal = "External";
 		boolean resultTrueExternal = jwtValidatorService.roleHasRightFormat(rightRoleExternal);
 		assertTrue(resultTrueExternal);
-	}
-	
-	@Test
-	void testValidateRole() {
-		final String wrongRole = "";
-		boolean resultFalse = jwtValidatorService.validateRole(wrongRole);
-		assertFalse(resultFalse);
-		
-		final String rightRole = "Admin";
-		boolean resultTrue = jwtValidatorService.validateRole(rightRole);
-		assertTrue(resultTrue);
 	}
 	
 	@Test
