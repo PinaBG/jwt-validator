@@ -4,14 +4,30 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.crypto.SecretKey;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import br.com.pinabg.jwtvalidator.JwtPayloadsEnum;
+import br.com.pinabg.jwtvalidator.JwtResponseDescriptionEnum;
+import br.com.pinabg.jwtvalidator.model.JwtResponseModel;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JWTValidatorServiceTest {
 	
 	@Autowired
@@ -19,7 +35,58 @@ class JWTValidatorServiceTest {
 	
 	@Mock
     private Claims claims;
+	
+	private static List<String> payloads = new ArrayList<>();
+    private static List<String> responses = new ArrayList<>();
+    private static List<String> createdJwt = new ArrayList<>();
+    
+    @BeforeAll
+    static void createJwtByPayloads() {
+    	payloads.add(JwtPayloadsEnum.VALID_PAYLOAD.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_BLANK_CLAIM_NAME.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_NUMBER_CLAIM_NAME.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_CLAIMS.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_MORE_3_CLAIMS.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_BLANK_CLAIM_ROLE.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_ROLE.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_CLAIM_SEED_NOT_PRIME.getPayload());
+    }
+    
+    @BeforeAll
+    static void createJwtResponses() {
+    	responses.add(JwtResponseDescriptionEnum.VALID_PAYLOAD.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_BLANK_CLAIM_NAME.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_NUMBER_CLAIM_NAME.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_CLAIMS.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_MORE_3_CLAIMS.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_BLANK_CLAIM_ROLE.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_ROLE.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_CLAIM_SEED_NOT_PRIME.getPayload());
+    }
+    
+    @Test
+    @Order(1)
+    void testCreateJwt() {
+		for(String payload: payloads) {
+			String jwt = jwtValidatorService.createJwt(payload);
+			assertFalse(jwt.isEmpty());
+			createdJwt.add(jwt);
+		}
+	}
 
+    @Test
+    @Order(2)
+    void testLoadAllValidations() {
+    	JwtResponseModel responseModel = new JwtResponseModel();
+    	for(String jwt: createdJwt) {
+    		responseModel = jwtValidatorService.loadAllValidations(jwt);
+    		assertTrue(responses.contains(responseModel.getDescription()));
+    		responses.remove(responseModel.getDescription());
+    	}
+    }
+    
 	@Test
 	void testStringBlankSpace() {
 		final String wrongStringBlankSpace = "   ";

@@ -40,21 +40,21 @@ public class JWTValidatorService {
 	        jwtResponse.setJwtPayload(payload);
 
 	        if (!jwtContainsMoreOrLessThan3Claims(claims)) {
-	            updateResponseForInvalid(jwtResponse, "mais/menos de 3 claims");
+	            updateResponseForInvalid(jwtResponse, "mais/menos de 3 claims.");
 	        } else if (!jwtContainsNecessaryClaims(claims)) {
-	            updateResponseForInvalid(jwtResponse, "não foram encontradas todas as claims necessárias");
+	            updateResponseForInvalid(jwtResponse, "não foram encontradas todas as claims necessárias.");
 	        } else if (!stringIsNotNullOrEmpty(claims.get("Name", String.class))) {
-	            updateResponseForInvalid(jwtResponse, "a Claim Name é vazia");
+	            updateResponseForInvalid(jwtResponse, "a Claim Name é vazia.");
 	        } else if (!nameDontContainNumbers(claims.get("Name", String.class))) {
-	            updateResponseForInvalid(jwtResponse, "a Claim Name possui caracter de números");
+	            updateResponseForInvalid(jwtResponse, "a Claim Name possui caracter de números.");
 	        } else if (!nameLenghtLessThan256Characters(claims.get("Name", String.class))) {
-	            updateResponseForInvalid(jwtResponse, "a Claim Name possui mais de 256 caracteres");
+	            updateResponseForInvalid(jwtResponse, "a Claim Name possui mais de 256 caracteres.");
 	        } else if (!stringIsNotNullOrEmpty(claims.get("Role", String.class))) {
-	            updateResponseForInvalid(jwtResponse, "a Claim Role é vazia");
+	            updateResponseForInvalid(jwtResponse, "a Claim Role é vazia.");
 	        } else if (!roleHasRightFormat(claims.get("Role", String.class))) {
-	            updateResponseForInvalid(jwtResponse, "a Claim Role não possui um dos tres valores ((Admin, Member e External)");
+	            updateResponseForInvalid(jwtResponse, "a Claim Role não possui um dos tres valores ((Admin, Member e External).");
 	        } else if (!validateSeed(Integer.parseInt(claims.get("Seed", String.class)))) {
-	            updateResponseForInvalid(jwtResponse, "a Claim Seed não é um número primo");
+	            updateResponseForInvalid(jwtResponse, "a Claim Seed não é um número primo.");
 	        }
 	    }
 
@@ -63,7 +63,7 @@ public class JWTValidatorService {
 	
 	private void updateResponseForInvalid(JwtResponseModel jwtResponse, String justification) {
 	    jwtResponse.setValidity("Falso");
-	    jwtResponse.setDescription("Justificativa: Abrindo o JWT, " + justification + ".");
+	    jwtResponse.setDescription("Justificativa: Abrindo o JWT, " + justification);
 	}
 
 	private Claims validateJwt(String jwsToken, JwtResponseModel jwtResponse) {
@@ -71,7 +71,7 @@ public class JWTValidatorService {
 			return getJwtClaims(jwsToken);
 	    } catch (JwtException e) {
 	    	jwtResponse.setValidity("Falso");
-	    	jwtResponse.setDescription("Justificativa: JWT inválido");
+	    	jwtResponse.setDescription("Justificativa: JWT inválido.");
 	    }
 		return null;
 	}

@@ -40,16 +40,26 @@ class JwtValidatorControllerTest {
     static void createJwtByPayloads() {
     	payloads.add(JwtPayloadsEnum.VALID_PAYLOAD.getPayload());
     	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_BLANK_CLAIM_NAME.getPayload());
     	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_NUMBER_CLAIM_NAME.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_CLAIMS.getPayload());
     	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_MORE_3_CLAIMS.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_BLANK_CLAIM_ROLE.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_ROLE.getPayload());
+    	payloads.add(JwtPayloadsEnum.INVALID_PAYLOAD_CLAIM_SEED_NOT_PRIME.getPayload());
     }
     
     @BeforeAll
     static void createJwtResponses() {
     	responses.add(JwtResponseDescriptionEnum.VALID_PAYLOAD.getPayload());
     	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_BLANK_CLAIM_NAME.getPayload());
     	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_NUMBER_CLAIM_NAME.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_CLAIMS.getPayload());
     	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_MORE_3_CLAIMS.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_BLANK_CLAIM_ROLE.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_ROLE.getPayload());
+    	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_CLAIM_SEED_NOT_PRIME.getPayload());
     }
 
     @Test
@@ -79,6 +89,7 @@ class JwtValidatorControllerTest {
 	        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	        JwtResponseModel responseBody = responseEntity.getBody();
 	        assertTrue(responses.contains(responseBody.getDescription()));
+	        responses.remove(responseBody.getDescription());
     	}
     }
 }
