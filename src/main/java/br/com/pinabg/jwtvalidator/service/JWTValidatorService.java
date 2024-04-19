@@ -8,7 +8,7 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import br.com.pinabg.jwtvalidator.JwtResponseDescriptionEnum;
+import br.com.pinabg.jwtvalidator.enumeration.JwtResponseDescriptionEnum;
 import br.com.pinabg.jwtvalidator.model.JwtResponseModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

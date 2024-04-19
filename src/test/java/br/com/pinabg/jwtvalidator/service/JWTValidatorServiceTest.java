@@ -19,8 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.pinabg.jwtvalidator.JwtPayloadsEnum;
-import br.com.pinabg.jwtvalidator.JwtResponseDescriptionEnum;
+import br.com.pinabg.jwtvalidator.enumeration.JwtPayloadsEnum;
+import br.com.pinabg.jwtvalidator.enumeration.JwtResponseDescriptionEnum;
 import br.com.pinabg.jwtvalidator.model.JwtResponseModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,4 +1,4 @@
-package br.com.pinabg.jwtvalidator;
+package br.com.pinabg.jwtvalidator.enumeration;
 
 public enum JwtPayloadsEnum {
 	VALID_PAYLOAD("{"

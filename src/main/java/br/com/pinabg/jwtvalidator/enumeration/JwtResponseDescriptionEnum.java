@@ -1,4 +1,4 @@
-package br.com.pinabg.jwtvalidator;
+package br.com.pinabg.jwtvalidator.enumeration;
 
 public enum JwtResponseDescriptionEnum {
 	VALID_PAYLOAD("Justificativa: Abrindo o JWT, as informações contidas atendem a descrição:"),

@@ -19,8 +19,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import br.com.pinabg.jwtvalidator.JwtPayloadsEnum;
-import br.com.pinabg.jwtvalidator.JwtResponseDescriptionEnum;
+import br.com.pinabg.jwtvalidator.enumeration.JwtPayloadsEnum;
+import br.com.pinabg.jwtvalidator.enumeration.JwtResponseDescriptionEnum;
 import br.com.pinabg.jwtvalidator.model.JwtResponseModel;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
