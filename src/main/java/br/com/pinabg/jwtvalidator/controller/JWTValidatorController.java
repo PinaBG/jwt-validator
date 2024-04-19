@@ -24,7 +24,7 @@ public class JWTValidatorController {
 		return "Hello World!";
 	}
 	
-	@GetMapping("/validajwt")
+	@GetMapping("/validatejwt")
 	public ResponseEntity<JwtResponseModel> validaJwt(@RequestParam String jwt) {
 		jwtValidatorService.loadAllValidations(jwt);
 		JwtResponseModel jwtResponse = jwtValidatorService.loadAllValidations(jwt);
