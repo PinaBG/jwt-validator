@@ -31,7 +31,7 @@ import io.jsonwebtoken.security.Keys;
 class JWTValidatorServiceTest {
 	
 	@Autowired
-	private JWTValidatorService jwtValidatorService;
+	private JwtValidatorService jwtValidatorService;
 	
 	@Mock
     private Claims claims;

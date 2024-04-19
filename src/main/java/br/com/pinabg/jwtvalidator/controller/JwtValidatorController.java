@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.pinabg.jwtvalidator.model.JwtResponseModel;
-import br.com.pinabg.jwtvalidator.service.JWTValidatorService;
+import br.com.pinabg.jwtvalidator.service.JwtValidatorService;
 
 @RestController
 @RequestMapping("/main")
-public class JWTValidatorController {
+public class JwtValidatorController {
 	
 	@Autowired
-	private JWTValidatorService jwtValidatorService;
+	private JwtValidatorService jwtValidatorService;
 	
 	@RequestMapping("/greetings")
 	public String getGreetings() {

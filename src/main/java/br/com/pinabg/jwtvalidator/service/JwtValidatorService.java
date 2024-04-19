@@ -16,7 +16,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 @Service
-public class JWTValidatorService {
+public class JwtValidatorService {
 	@Value("${jwt.secret}")
     private String jwtKey;
 	

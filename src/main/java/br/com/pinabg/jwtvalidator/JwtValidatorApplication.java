@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
-public class JwtvalidatorApplication {
+public class JwtValidatorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JwtvalidatorApplication.class, args);
+		SpringApplication.run(JwtValidatorApplication.class, args);
 	}
 
 }
