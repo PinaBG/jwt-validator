@@ -82,7 +82,7 @@ class JwtValidatorControllerTest {
     	assertFalse(createdJwt.isEmpty());
     	for(String jwt: createdJwt) {
 	        ResponseEntity<JwtResponseModel> responseEntity = restTemplate.getForEntity(
-	                "http://localhost:" + port + "/main/validajwt?jwt={jwt}",
+	                "http://localhost:" + port + "/main/validatejwt?jwt={jwt}",
 	                JwtResponseModel.class,
 	                jwt);
 	
