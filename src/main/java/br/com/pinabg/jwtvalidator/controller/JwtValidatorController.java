@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.pinabg.jwtvalidator.model.JwtResponseModel;
-import br.com.pinabg.jwtvalidator.service.JwtValidatorService;
+import br.com.pinabg.jwtvalidator.service.JwtCreationService;
+import br.com.pinabg.jwtvalidator.service.ValidateClaimsService;
 
 @RestController
 @RequestMapping("/main")
 public class JwtValidatorController {
 	
 	@Autowired
-	private JwtValidatorService jwtValidatorService;
+	private ValidateClaimsService validateClaimsService;
+	@Autowired
+	private JwtCreationService jwtCreation;
 	
 	@RequestMapping("/greetings")
 	public String getGreetings() {
@@ -26,14 +29,14 @@ public class JwtValidatorController {
 	
 	@GetMapping("/validatejwt")
 	public ResponseEntity<JwtResponseModel> validaJwt(@RequestParam String jwt) {
-		jwtValidatorService.loadAllValidations(jwt);
-		JwtResponseModel jwtResponse = jwtValidatorService.loadAllValidations(jwt);
+		validateClaimsService.loadAllValidations(jwt);
+		JwtResponseModel jwtResponse = validateClaimsService.loadAllValidations(jwt);
 		
 		return ResponseEntity.ok(jwtResponse);
 	}
 	
 	@PostMapping("/createjwt")
 	public String createJwt(@RequestBody String jsonPayload) {
-		return jwtValidatorService.createJwt(jsonPayload);
+		return jwtCreation.createJwt(jsonPayload);
 	}
 }
