@@ -2,6 +2,7 @@ package br.com.pinabg.jwtvalidator.service;
 
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import br.com.pinabg.jwtvalidator.enumeration.JwtResponseDescriptionEnum;
@@ -11,12 +12,15 @@ import io.jsonwebtoken.JwtException;
 
 @Service
 public class ValidateClaimsService {
+	@Value("${jwt.secret}")
+    private String jwtKey;
+	
 	public JwtResponseModel loadAllValidations(String jwsToken) {
 	    JwtResponseModel jwtResponse = new JwtResponseModel();
 	    jwtResponse.setValidity("Verdadeiro");
 	    jwtResponse.setDescription("Justificativa: Abrindo o JWT, as informações contidas atendem a descrição:");
 	    
-	    ValidateJwtService validateJwtService = new ValidateJwtService(jwsToken);
+	    ValidateJwtService validateJwtService = new ValidateJwtService(jwtKey);
 	    try {
 	    	Claims claims = validateJwtService.getJwtClaims(jwsToken);
 	    	processClaims(claims, jwtResponse);
@@ -31,44 +35,58 @@ public class ValidateClaimsService {
 		if (claims != null) {
 	        jwtResponse.setJwtPayload(claims.toString());
 	        
-	        processJwtClaims(claims,jwtResponse);
-	        processClaimName(claims, jwtResponse);
-	        processClaimRole(claims, jwtResponse);
-	        processClaimSeed(claims, jwtResponse);
+	        if (!processJwtClaims(claims, jwtResponse)
+	        	    || !processClaimName(claims, jwtResponse)
+	        	    || !processClaimRole(claims, jwtResponse)
+	        	    || !processClaimSeed(claims, jwtResponse)) {
+	        	    return;
+	        }
 	    }
 	}
 
-	private void processJwtClaims(Claims claims, JwtResponseModel jwtResponse) {
+	private boolean processJwtClaims(Claims claims, JwtResponseModel jwtResponse) {
 		if (!jwtContainsMoreOrLessThan3Claims(claims)) {
 			updateResponseForInvalid(jwtResponse, JwtResponseDescriptionEnum.INVALID_PAYLOAD_MORE_3_CLAIMS.getPayload());
+			return false;
 		} else if (!jwtContainsNecessaryClaims(claims)) {
 			updateResponseForInvalid(jwtResponse, JwtResponseDescriptionEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_CLAIMS.getPayload());
+			return false;
 		}
+		return true;
 	}
 	
-	private void processClaimName(Claims claims, JwtResponseModel jwtResponse) {
+	private boolean processClaimName(Claims claims, JwtResponseModel jwtResponse) {
 		if (!stringIsNotNullOrEmpty(claims.get("Name", String.class))) {
 			updateResponseForInvalid(jwtResponse, JwtResponseDescriptionEnum.INVALID_PAYLOAD_BLANK_CLAIM_NAME.getPayload());
+			return false;
 		} else if (!nameDontContainNumbers(claims.get("Name", String.class))) {
 			updateResponseForInvalid(jwtResponse, JwtResponseDescriptionEnum.INVALID_PAYLOAD_NUMBER_CLAIM_NAME.getPayload());
+			return false;
 		} else if (!nameLenghtLessThan256Characters(claims.get("Name", String.class))) {
 			updateResponseForInvalid(jwtResponse, JwtResponseDescriptionEnum.INVALID_PAYLOAD_NAME_MORE_256_CHARACTERS.getPayload());
+			return false;
 		}
+		return true;
 	}
 	
-	private void processClaimRole(Claims claims, JwtResponseModel jwtResponse) {
+	private boolean processClaimRole(Claims claims, JwtResponseModel jwtResponse) {
 		if (!stringIsNotNullOrEmpty(claims.get("Role", String.class))) {
 		    updateResponseForInvalid(jwtResponse, JwtResponseDescriptionEnum.INVALID_PAYLOAD_BLANK_CLAIM_ROLE.getPayload());
+		    return false;
 		} else if (!roleHasRightFormat(claims.get("Role", String.class))) {
 		    updateResponseForInvalid(jwtResponse, JwtResponseDescriptionEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_ROLE.getPayload());
+		    return false;
 		}
+		return true;
 	}
 	
-	private void processClaimSeed(Claims claims, JwtResponseModel jwtResponse) {
+	private boolean processClaimSeed(Claims claims, JwtResponseModel jwtResponse) {
 		int seed = Integer.parseInt(claims.get("Seed", String.class));
 		if (!validateSeed(seed)) {
 		    updateResponseForInvalid(jwtResponse, JwtResponseDescriptionEnum.INVALID_PAYLOAD_CLAIM_SEED_NOT_PRIME.getPayload());
+		    return false;
 		}
+		return true;
 	}
 	
 	private void updateResponseForInvalid(JwtResponseModel jwtResponse, String justification) {

@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mock;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.pinabg.jwtvalidator.enumeration.JwtResponseDescriptionEnum;
+import br.com.pinabg.jwtvalidator.model.JwtResponseModel;
 import io.jsonwebtoken.Claims;
 
 @SpringBootTest
@@ -29,7 +31,20 @@ class ValidateClaimsServiceTest {
     private Claims claims;
 	
     private static List<String> responses = new ArrayList<>();
-    private static List<String> createdJwt = new ArrayList<>();
+    private static List<String> jwts = new ArrayList<>();
+    
+    @BeforeAll
+    static void createJwts() {
+    	jwts.add("eyJhbGciOiJIUzI1NiJ9.ewogICJSb2xlIjogIkFkbWluIiwKICAiU2VlZCI6ICI3ODQxIiwKICAiTmFtZSI6ICJUb25pbmhvIEFyYXVqbyIKfQ.HxIokwwabZBEukG2qQvHU9h3QNB8P-MbFTpdf98EvA0");
+    	jwts.add("eyJhbGciOiJIUzI1NiJ9.ImFiYyI.HDjb5COa1ChHYr3losZQ1Pb_JuO2pZeFARAumCG09Zk");
+    	jwts.add("eyJhbGciOiJIUzI1NiJ9.ewogICJSb2xlIjogIkFkbWluIiwKICAiU2VlZCI6ICI3ODQxIiwKICAiTmFtZSI6ICIiCn0.qSOo4pSc-XtbyWeCXasPKQeTaXeC7urth7h0cKQU9Dc");
+    	jwts.add("eyJhbGciOiJIUzI1NiJ9.ewogICJSb2xlIjogIkFkbWluIiwKICAiU2VlZCI6ICI3ODQxIiwKICAiTmFtZSI6ICJUb24xbmgwIEFyYXVqbyIKfQ.4YWIHd_g83sqKMrhIRndjyLPYxMnnHhi6_tFbRXPUA0");
+    	jwts.add("eyJhbGciOiJIUzI1NiJ9.ewogICJSb2xlIjogIkFkbWluIiwKICAiU2VlZCI6ICI3ODQxIiwKICAiQ0VQIjogIjAyNy4zNy4wMTAiCn0.En5iY51NbDxnIt4xnH4T64k8cS3nDno9JWZHuMWwuyM");
+    	jwts.add("eyJhbGciOiJIUzI1NiJ9.ewogICJSb2xlIjogIkFkbWluIiwKICAiU2VlZCI6ICI3ODQxIiwKICAiTmFtZSI6ICJUb25pbmhvIEFyYXVqbyIsCiAgIkNFUCI6ICIwMjcuMzcuMDEwIgp9.8_e_8XiR0BEiII9n1doQNuWoA663fLtYBTCvtEHkwpQ");
+    	jwts.add("eyJhbGciOiJIUzI1NiJ9.ewogICJSb2xlIjogIiIsCiAgIlNlZWQiOiAiNzg0MSIsCiAgIk5hbWUiOiAiVG9uaW5obyBBcmF1am8iCn0.lv0aHKhycM7PCICod2DO7NbuY-q1yMqZ7RPpJMqNg6I");
+    	jwts.add("eyJhbGciOiJIUzI1NiJ9.ewogICJSb2xlIjogImJsYWJsYSIsCiAgIlNlZWQiOiAiNzg0MSIsCiAgIk5hbWUiOiAiVG9uaW5obyBBcmF1am8iCn0.wlzsk8rNmu4r2jWByjU9Og6kNebID9-Tc1B9DIpIFEI");
+    	jwts.add("eyJhbGciOiJIUzI1NiJ9.ewogICJSb2xlIjogIkFkbWluIiwKICAiU2VlZCI6ICIxMCIsCiAgIk5hbWUiOiAiVG9uaW5obyBBcmF1am8iCn0.wLdx2cblfpc3u5q5AX-QqR1UtdR1gkmjHYJIOn_nq3c");
+    }
     
     @BeforeAll
     static void createJwtResponses() {
@@ -43,17 +58,16 @@ class ValidateClaimsServiceTest {
     	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_DOES_NOT_CONTAIN_NECESSARY_ROLE.getPayload());
     	responses.add(JwtResponseDescriptionEnum.INVALID_PAYLOAD_CLAIM_SEED_NOT_PRIME.getPayload());
     }
-
-//    @Test
-//    @Order(2)
-//    void testLoadAllValidations() {
-//    	JwtResponseModel responseModel = new JwtResponseModel();
-//    	for(String jwt: createdJwt) {
-//    		responseModel = jwtValidatorService.loadAllValidations(jwt);
-//    		assertTrue(responses.contains(responseModel.getDescription()));
-//    		responses.remove(responseModel.getDescription());
-//    	}
-//    }
+    
+    @Test
+    void testLoadAllValidations() {
+    	JwtResponseModel responseModel = new JwtResponseModel();
+    	for(String jwt: jwts) {
+    		responseModel = jwtValidatorService.loadAllValidations(jwt);
+    		assertTrue(responses.contains(responseModel.getDescription()));
+    		responses.remove(responseModel.getDescription());
+    	}
+    }
     
 	@Test
 	void testStringBlankSpace() {
@@ -164,13 +178,4 @@ class ValidateClaimsServiceTest {
 	    when(claims.containsKey("Seed")).thenReturn(seedPresent);
 	    return claims;
 	}
-	
-//	@Test
-//	void getJwtClaimsTest() {
-//		assertThrows(JwtException.class, () -> jwtValidatorService.getJwtClaims("eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJTZWVkIjoiNzg0MSIsIk5hbWUiOiJUb25pbmhvIEFyYXVqbyJ9.KqLDSGFPM3W9YMbJ_6QBthQVcudFrz32qh79eGkZPj0"));
-//        
-//		Claims result = jwtValidatorService.getJwtClaims("eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJTZWVkIjoiNzg0MSIsIk5hbWUiOiJUb25pbmhvIEFyYXVqbyJ9.9RxbnTDfhT_h7NXTRclmFLR7zBs3P0cDPx9w1Rstiec");
-//	    assertNotNull(result);
-//	    assertTrue(result instanceof Claims);
-//	}
 }

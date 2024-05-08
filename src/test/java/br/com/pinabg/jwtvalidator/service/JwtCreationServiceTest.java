@@ -35,8 +35,7 @@ class JwtCreationServiceTest {
 	@Test
     void testCreateJwt() {
 		for(String payload: payloads) {
-			String jwt = creationService.createJwt(payload);
-			assertFalse(jwt.isEmpty());
+			assertFalse(creationService.createJwt(payload).isEmpty());
 		}
 	}
 }
